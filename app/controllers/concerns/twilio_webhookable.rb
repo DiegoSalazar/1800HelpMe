@@ -3,7 +3,7 @@ module TwilioWebhookable
   extend ActiveSupport::Concern
 
   included do
-    after_action :set_header
+    before_action :set_header
   end
 
   def set_header
@@ -11,6 +11,6 @@ module TwilioWebhookable
   end
 
   def render_voice_response(&block)
-    render text: Twilio::TwiML::VoiceResponse.new(&block)
+    render plain: Twilio::TwiML::VoiceResponse.new(&block)
   end
 end

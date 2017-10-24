@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
-  resources :voice_auths, only: :create
-  resources :calls, only: :create
+  resources :calls, only: :create do
+    resources :voice_auths, only: :create
+  end
+
+  resources :users, only: [] do
+    resources :calls, only: [:index, :show, :destroy] do
+      resources :contact_recognitions, only: :create
+      resources :voice_auths, only: :create
+    end
+  end
 
   namespace :admin do
     resources :users

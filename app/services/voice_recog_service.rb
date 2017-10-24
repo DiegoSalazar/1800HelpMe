@@ -3,24 +3,23 @@ require 'google/cloud/speech'
 
 # Speech to text from a Twilio call recording
 class VoiceRecogService
-  GCLOUD_SPEECH_SETTINGS = {
-    language: 'en-US', sample_rate: 8000, encoding: :linear16
-  }.freeze
+  include DefRetry
+  attr_reader :speech_decoder
 
-  class << self
-    def decode(call)
+  def initialize
+    @speech_decoder ||= Google::Cloud::Speech.new(
+      project: '1800Helpme',
+      keyfile: '/Users/diego/Desktop/gcp-creds.json'
+    )
+  end
+
+  def decode(call)
+    retryable on: OpenURI::HTTPError do
       file = open call.recording_url
-      audio = speech_decoder.audio file, GCLOUD_SPEECH_SETTINGS
-      audio.recognize.first.transcript
-    end
-
-    private
-
-    def speech_decoder
-      @speech_decoder ||= Google::Cloud::Speech.new(
-        project: '1800Helpme',
-        keyfile: '/Users/diego/Desktop/gcp-creds.json'
-      )
+      speech_decoder.
+        audio(file, language: 'en-US', sample_rate: 8000, encoding: :linear16).
+        recognize.
+        first
     end
   end
 end

@@ -1,20 +1,16 @@
 # Create a call record for an incoming Twilio call
 class CreateCallService
-  def self.call(params)
-    Call.create!({
-      called: params[:Called],
+  def call(params)
+    Call.create!(
       from: params[:From],
-      direction: params[:Direction],
+      to: params[:To],
       status: params[:CallStatus],
       recording_url: params[:RecordingUrl],
-      recording_duration: params[:RecordingDuration],
-      call_sid: params[:CallSid],
-      account_sid: params[:AccountSid],
-      from_zip: params[:FromZip],
-      from_city: params[:FromCity],
-      from_state: params[:FromState],
-      from_country: params[:FromCountry],
-      meta: { params: params }
-    })
+      parent_id: params[:call_id],
+      user_id: params[:user_id],
+      meta: {
+        params: params.except(:From, :To, :CallStatus, :RecordingUrl, :call_id, :user_id)
+      },
+    )
   end
 end

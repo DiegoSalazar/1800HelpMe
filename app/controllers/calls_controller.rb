@@ -1,18 +1,14 @@
 class CallsController < ApplicationController
   include TwilioWebhookable
+  include TakesCalls
+  skip_before_action :verify_authenticity_token
 
   def create
-    CreateCallService.call params
+    call = take_call
 
     render_voice_response do |r|
-      r.say 'Hello. What is your full name?'
-      r.record maxLength: '4', action: '/voice_auth'
+      r.say 'What is your full name?'
+      r.record maxLength: 3, action: call_voice_auths_path(call)
     end
-  end
-
-  private
-
-  def call_params
-    params.require(:call).permit(:user_id, :params, :env)
   end
 end

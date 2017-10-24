@@ -1,13 +1,27 @@
 class VoiceAuthsController < ApplicationController
+  include DefRetry
   include TwilioWebhookable
+  include TakesCalls
+  skip_before_action :verify_authenticity_token
 
   def create
-    call = CallCreator.create params
-    results = VoiceRecogService.decode call
-    call.update_column :recognized_speech, results.transcript
+    call = take_call
+    retryable on: NoMethodError do
+      speech = VoiceRecogService.new.decode call
+      call.update_column :recognized_speech, speech.transcript
+    end
+    user = User.search_by_full_name(call.recognized_speech).first
 
     render_voice_response do |r|
-      r.say "You said, #{call.recognized_speech}"
+      if user.present?
+        user.calls << call
+        r.say "Hello #{user.full_name}"
+        r.say "Who's phone number do you need?"
+        r.record maxLength: 3, action: user_call_contact_recognitions_path(user, call)
+      else
+        r.say "I didn't hear that. Please say your full name again."
+        r.record maxLength: 3, action: user_call_voice_auths_path(user, call)
+      end
     end
   end
 end

@@ -9,11 +9,24 @@ class CallDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    parent_id: Field::Number,
     user_id: Field::Number,
-    params: Field::Text,
-    env: Field::Text,
+    to: Field::String,
+    from: Field::String,
+    direction: Field::String,
+    status: Field::String,
+    recording_url: Field::Text,
+    recognized_speech: Field::Text,
+    recording_duration: Field::Number,
+    call_sid: Field::String,
+    account_sid: Field::String,
+    from_zip: Field::String,
+    from_city: Field::String,
+    from_state: Field::String,
+    from_country: Field::String,
+    meta: Field::Text,
     created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    updated_at: Field::DateTime
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -23,18 +36,25 @@ class CallDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :user_id,
-    :params,
-    :env,
+    :to,
+    :from,
+    :status,
+    :recording_url,
+    :recognized_speech
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :id,
+    :to,
+    :from,
+    :status,
+    :recording_url,
+    :recognized_speech,
     :user_id,
-    :params,
-    :env,
+    :parent_id,
+    :meta,
     :created_at,
     :updated_at,
   ].freeze
@@ -43,9 +63,11 @@ class CallDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :user_id,
-    :params,
-    :env,
+    :to,
+    :from,
+    :status,
+    :recording_url,
+    :recognized_speech,
   ].freeze
 
   # Overwrite this method to customize how calls are displayed
