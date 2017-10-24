@@ -1,0 +1,27 @@
+= form_for(@call, html: { class: "form-horizontal", role: "form" }) do |f|
+  - if @call.errors.any?
+    .alert.alert-danger.alert-dismissable role="alert"
+      button.close type="button" data-dismiss="alert"
+        span aria-hidden="true"
+          | &times;
+        span.sr-only
+          | Close
+      h4= "#{pluralize(@call.errors.count,"error")} prohibited this call from being saved:"
+      ul
+        - @call.errors.full_messages.each do |msg|
+          li= msg
+  .form-group
+    = f.label :user_id, class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.number_field :user_id, class: "form-control"
+  .form-group
+    = f.label :params, class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_area :params, class: "form-control"
+  .form-group
+    = f.label :env, class: "col-sm-2 control-label"
+    .col-sm-10
+      = f.text_area :env, class: "form-control"
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit class: "btn btn-primary"

@@ -1,0 +1,14 @@
+.container
+  .row
+    .col-md-12
+      .page-header
+        = link_to my_contacts_path, class: 'btn btn-default' do
+          span.glyphicon.glyphicon-list-alt
+          |  Back
+        = link_to [:my, @contact], class: 'btn btn-primary' do
+          span.glyphicon.glyphicon-info-sign
+          |  Show
+        h1
+          | Editing contact
+
+      = render 'form'

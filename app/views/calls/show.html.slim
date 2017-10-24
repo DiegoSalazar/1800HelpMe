@@ -1,0 +1,22 @@
+.page-header
+  = link_to calls_path, class: 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_call_path(@call), class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show call
+dl.dl-horizontal
+  dt
+    | User:
+  dd
+    = @call.user_id
+  dt
+    | Params:
+  dd
+    = @call.params
+  dt
+    | Env:
+  dd
+    = @call.env

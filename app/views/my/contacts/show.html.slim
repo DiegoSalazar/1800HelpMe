@@ -1,0 +1,37 @@
+.container
+  .row
+    .col-md-12
+      .page-header
+        = link_to my_contacts_path, class: 'btn btn-default' do
+          span.glyphicon.glyphicon-list-alt
+          |  Back
+        = link_to edit_my_contact_path(@contact), class: 'btn btn-primary' do
+          span.glyphicon.glyphicon-pencil
+          |  Edit
+        h1
+          | Show contact
+      dl.dl-horizontal
+        dt
+          | User:
+        dd
+          = @contact.user_id
+        dt
+          | First name:
+        dd
+          = @contact.first_name
+        dt
+          | Middle name:
+        dd
+          = @contact.middle_name
+        dt
+          | Last name:
+        dd
+          = @contact.last_name
+        dt
+          | Email:
+        dd
+          = @contact.email
+        dt
+          | Phone:
+        dd
+          = @contact.phone

@@ -1,0 +1,2 @@
+module VoiceAuthsHelper
+end

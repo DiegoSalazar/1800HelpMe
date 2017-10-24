@@ -4,6 +4,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 ruby '2.3.5'
+
+gem "twilio-ruby"
+gem "google-cloud-speech"
 gem 'rails', '~> 5.1.4'
 gem 'puma', '~> 3.7'
 gem 'sass-rails', '~> 5.0'
@@ -38,6 +41,7 @@ group :development do
   gem 'hub', :require=>nil
   gem 'rails_layout'
   gem 'spring-commands-rspec'
+  gem 'bootstrap-generators'
 end
 group :development, :test do
   gem 'factory_girl_rails'

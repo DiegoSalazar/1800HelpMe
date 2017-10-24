@@ -1,0 +1,50 @@
+.container
+  .row
+    .col-md-12
+      .page-header
+        = link_to new_my_contact_path, class: 'btn btn-primary' do
+          span.glyphicon.glyphicon-plus
+          |  New Contact
+        h1
+          | Listing contacts
+
+      .table-responsive
+        table.table.table-striped.table-bordered.table-hover
+          thead
+            tr
+              th
+                | User
+              th
+                | First name
+              th
+                | Middle name
+              th
+                | Last name
+              th
+                | Email
+              th
+                | Phone
+              th
+              th
+              th
+          tbody
+            - @contacts.each do | contact |
+              tr
+                td
+                  = contact.user_id
+                td
+                  = contact.first_name
+                td
+                  = contact.middle_name
+                td
+                  = contact.last_name
+                td
+                  = contact.email
+                td
+                  = contact.phone
+                td
+                  = link_to 'Show', [:my, contact]
+                td
+                  = link_to 'Edit', edit_my_contact_path(contact)
+                td
+                  = link_to 'Destroy', [:my, contact], method: :delete, data: { confirm: 'Are you sure?' }
