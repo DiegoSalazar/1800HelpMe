@@ -17,7 +17,7 @@ class ContactRecognitionsController < ApplicationController
     render_voice_response do |r|
       if contact.present?
         r.say "I found #{contact.full_name}"
-        r.say "The number is #{phone_num_for_speech2text contact.phone}"
+        r.say "The number is #{phone_num_for_text2speech contact.phone}"
         r.say "Take care now bye bye then!"
       else
         r.say "I couldn't find that contact. Please, try again."
@@ -32,7 +32,7 @@ class ContactRecognitionsController < ApplicationController
     @user = User.find params[:user_id]
   end
 
-  def phone_num_for_speech2text(phone)
+  def phone_num_for_text2speech(phone)
     _, part1, part2, part3 = phone.match /^(\d{3})(\d{3})(\d{4})/
     [part1, part2, part3].map { |p| p.chars.join ' ' }.join ?.
   rescue NoMethodError
