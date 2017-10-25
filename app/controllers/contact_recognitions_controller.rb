@@ -3,6 +3,7 @@ class ContactRecognitionsController < ApplicationController
   include TwilioWebhookable
   include TakesCalls
   include VoiceRecognition
+  include Loggable
   skip_before_action :verify_authenticity_token
   before_action :get_user
 
@@ -16,13 +17,15 @@ class ContactRecognitionsController < ApplicationController
     contacts = @user.contacts.search_by_full_name call.recognized_speech
     contact = contacts.first
 
-    log "Found #{pluralize contacts.size, 'contact'}"
+    log "Found #{contacts.size} #{'contact'.pluralize contacts.size}"
 
     render_voice_response do |r|
       if contact.present?
         r.say "I found #{contact.full_name}"
         r.say "The number is #{phone_num_for_text2speech contact.phone}"
-        r.say "Take care now bye bye then!"
+        r.gather input: 'speech dtmf', timeout: 3, num_digits: 1 do |g|
+          g.say 'Would you like '
+        end
       else
         r.say "I couldn't find that contact. Please, try again."
         r.record maxLength: 3, action: user_call_contact_recognitions_path(@user, call)

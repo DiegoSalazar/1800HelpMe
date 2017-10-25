@@ -12,9 +12,10 @@ class VoiceAuthsController < ApplicationController
       speech = voice_recog_service.decode call
       call.update_column :recognized_speech, speech.transcript
     end
-    user = User.search_by_full_name(call.recognized_speech).first
+    users = User.search_by_full_name call.recognized_speech
+    user = users.first
 
-    log "Found #{pluralize user.size, 'user'}"
+    log "Found #{users.size} #{'user'.pluralize users.size}"
 
     render_voice_response do |r|
       if user.present?
