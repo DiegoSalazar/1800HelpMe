@@ -6,10 +6,9 @@ class VoiceRecogService
   include DefRetry
   attr_reader :speech_decoder
 
-  def initialize
+  def initialize(keyfile: '', project: '')
     @speech_decoder ||= Google::Cloud::Speech.new(
-      project: '1800Helpme',
-      keyfile: '/Users/diego/Desktop/gcp-creds.json'
+      project: project, keyfile: keyfile
     )
   end
 
@@ -18,8 +17,7 @@ class VoiceRecogService
       file = open call.recording_url
       speech_decoder.
         audio(file, language: 'en-US', sample_rate: 8000, encoding: :linear16).
-        recognize.
-        first
+        recognize.first
     end
   end
 end

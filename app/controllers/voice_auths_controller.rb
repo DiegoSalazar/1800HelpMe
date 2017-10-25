@@ -2,12 +2,13 @@ class VoiceAuthsController < ApplicationController
   include DefRetry
   include TwilioWebhookable
   include TakesCalls
+  include VoiceRecognition
   skip_before_action :verify_authenticity_token
 
   def create
     call = take_call
     retryable on: NoMethodError do
-      speech = VoiceRecogService.new.decode call
+      speech = voice_recog_service.decode call
       call.update_column :recognized_speech, speech.transcript
     end
     user = User.search_by_full_name(call.recognized_speech).first

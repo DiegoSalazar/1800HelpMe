@@ -2,6 +2,7 @@ class ContactRecognitionsController < ApplicationController
   include DefRetry
   include TwilioWebhookable
   include TakesCalls
+  include VoiceRecognition
   skip_before_action :verify_authenticity_token
   before_action :get_user
 
@@ -9,7 +10,7 @@ class ContactRecognitionsController < ApplicationController
     call = take_call
     @user.calls << call
     retryable on: NoMethodError do
-      speech = VoiceRecogService.new.decode call
+      speech = voice_recog_service.decode call
       call.update_column :recognized_speech, speech.transcript
     end
     contact = @user.contacts.search_by_full_name(call.recognized_speech).first
