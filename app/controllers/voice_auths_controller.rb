@@ -21,7 +21,7 @@ class VoiceAuthsController < ApplicationController
         r.record maxLength: 3, action: user_call_contact_recognitions_path(user, call)
       else
         r.say "I didn't hear that. Please say your full name again."
-        r.record maxLength: 3, action: user_call_voice_auths_path(user, call)
+        r.record maxLength: 3, action: call_voice_auths_path(call)
       end
     end
   end
