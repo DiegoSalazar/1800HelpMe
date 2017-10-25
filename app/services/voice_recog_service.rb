@@ -5,10 +5,10 @@ require 'google/cloud/speech'
 class VoiceRecogService
   include DefRetry
 
-  def initialize(keyfile: '')
+  def initialize(project:)
     # Google::Cloud client needs a keyfile to authenticate,
     # those are kept in ENV vars. More info: http://googlecloudplatform.github.io/google-cloud-ruby/#/docs/google-cloud/v0.44.0/guides/authentication
-    @speech_decoder = Google::Cloud::Speech.new(project: project)
+    @speech_decoder = Google::Cloud::Speech.new project: project
   end
 
   def decode(call)
