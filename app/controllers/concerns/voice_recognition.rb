@@ -5,8 +5,7 @@ module VoiceRecognition
   # and stored in ENV.
   def voice_recog_service
     @voice_recog_service ||= VoiceRecogService.new(
-      project: ENV.fetch('GCP_PROJECT', '1800Helpme'),
-      keyfile: Base64.decode64(ENV.fetch('GCP_CREDS'))
+      project: ENV.fetch('GCP_PROJECT', '1800Helpme')
     )
   end
 end
