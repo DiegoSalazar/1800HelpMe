@@ -13,7 +13,10 @@ class ContactRecognitionsController < ApplicationController
       speech = voice_recog_service.decode call
       call.update_column :recognized_speech, speech.transcript
     end
-    contact = @user.contacts.search_by_full_name(call.recognized_speech).first
+    contacts = @user.contacts.search_by_full_name call.recognized_speech
+    contact = contacts.first
+
+    log "Found #{pluralize contacts.size, 'contact'}"
 
     render_voice_response do |r|
       if contact.present?

@@ -3,6 +3,7 @@ class VoiceAuthsController < ApplicationController
   include TwilioWebhookable
   include TakesCalls
   include VoiceRecognition
+  include Loggable
   skip_before_action :verify_authenticity_token
 
   def create
@@ -12,6 +13,8 @@ class VoiceAuthsController < ApplicationController
       call.update_column :recognized_speech, speech.transcript
     end
     user = User.search_by_full_name(call.recognized_speech).first
+
+    log "Found #{pluralize user.size, 'user'}"
 
     render_voice_response do |r|
       if user.present?
