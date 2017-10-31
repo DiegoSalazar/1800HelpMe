@@ -4,20 +4,26 @@ namespace :users do
     min = ENV.fetch('min', 100).to_i
     max = ENV.fetch('max', 100).to_i
     num = min + rand(max)
-    puts "Creating #{num} users..."
+    puts "Buulding #{num} users..."
 
     User.transaction do
       users = num.times.map do
-        user = FactoryBot.build :user
+        user = User.new FactoryBot.attributes_for :user
+
         user.contacts << FactoryBot.build_list(:contact, num)
+        user.contacts.each do |contact|
+          contact.phone_numbers << FactoryBot.build_list(:phone_number, rand(3) + 1)
+          contact.addresses << FactoryBot.build_list(:address, rand(3) + 1)
+        end
+
         user.phone_numbers << FactoryBot.build(:phone_number)
         user.addresses << FactoryBot.build(:address)
         print ?.
         user
       end
 
-      User.import users
-      puts
+      puts nil, "Inserting Users..."
+      User.import users, recursive: true
     end
 
     puts "\aDone."

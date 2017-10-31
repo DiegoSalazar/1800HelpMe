@@ -30,6 +30,9 @@ class UserDashboard < Administrate::BaseDashboard
     confirmation_sent_at: Field::DateTime,
     unconfirmed_email: Field::String,
     role: Field::String.with_options(searchable: false),
+    phone_numbers: Field::HasMany,
+    addresses: Field::HasMany,
+    contacts: Field::HasMany
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -38,18 +41,29 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :invited_by,
     :id,
+    :first_name,
+    :middle_name,
+    :last_name,
     :email,
-    :encrypted_password,
+    :role,
+    :invited_by,
+    :confirmed_at,
+    :email
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :invited_by,
     :id,
+    :first_name,
+    :middle_name,
+    :last_name,
     :email,
+    :role,
+    :created_at,
+    :updated_at,
+    :invited_by,
     :encrypted_password,
     :reset_password_token,
     :reset_password_sent_at,
@@ -59,16 +73,13 @@ class UserDashboard < Administrate::BaseDashboard
     :last_sign_in_at,
     :current_sign_in_ip,
     :last_sign_in_ip,
-    :created_at,
-    :updated_at,
-    :first_name,
-    :middle_name,
-    :last_name,
     :confirmation_token,
     :confirmed_at,
     :confirmation_sent_at,
     :unconfirmed_email,
-    :role,
+    :phone_numbers,
+    :addresses,
+    :contacts
   ].freeze
 
   # FORM_ATTRIBUTES
