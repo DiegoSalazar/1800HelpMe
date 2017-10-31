@@ -28,6 +28,7 @@ gem 'tzinfo-data'
 gem 'uglifier', '>= 1.3.0'
 gem 'activerecord-import'
 gem 'airbrake'
+gem 'newrelic_rpm'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
