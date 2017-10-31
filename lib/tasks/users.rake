@@ -1,8 +1,8 @@
 namespace :users do
-  desc 'Create a bunch of random users'
-  task create_random_batch: :environment do
-    min = ENV.fetch('min', 100).to_i
-    max = ENV.fetch('max', 100).to_i
+  desc 'Create a bunch of random users. Usage: rake users:test_seed[int_min,int_max]'
+  task :test_seed, [:min, :max] => :environment do |t, args|
+    min = args.fetch(:min, 100).to_i
+    max = args.fetch(:max, 100).to_i
     num = min + rand(max)
     puts "Buulding #{num} users..."
 
@@ -30,8 +30,8 @@ namespace :users do
   end
 
   desc "Clear users, and contacts, and their phone_numbers, and addresses"
-  task clear: :environment do
-    raise 'No.' if Rails.env.production?
+  task :clear, [:override] => :environment do |t, args|
+    raise 'No.' if Rails.env.production? && args[:override].blank?
     puts "Destroying Users and Contacts..."
     [User, Contact].map &:destroy_all
     puts "\aDone."
