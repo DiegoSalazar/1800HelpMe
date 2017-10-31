@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :addresses
+  resources :phone_numbers
   resources :calls, only: :create do
     resources :voice_auths, only: :create
   end
@@ -12,6 +14,9 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users
+    resources :contacts
+    resources :phone_numbers
+    resources :addresses
     resources :calls
     root to: "users#index"
   end

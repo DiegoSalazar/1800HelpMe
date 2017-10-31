@@ -1,0 +1,63 @@
+.page-header
+  = link_to new_address_path, class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    |  New Address
+  h1
+    | Listing addresses
+
+.table-responsive
+  table.table.table-striped.table-bordered.table-hover
+    thead
+      tr
+        th
+          | Contactable
+        th
+          | Contactable type
+        th
+          | Address type
+        th
+          | Primary
+        th
+          | Street1
+        th
+          | Street2
+        th
+          | City
+        th
+          | State
+        th
+          | Zip
+        th
+          | Country
+        th
+        th
+        th
+    tbody
+      - @addresses.each do | address |
+        tr
+          td
+            = address.contactable_id
+          td
+            = address.contactable_type
+          td
+            = address.address_type
+          td
+            = address.primary
+          td
+            = address.street1
+          td
+            = address.street2
+          td
+            = address.city
+          td
+            = address.state
+          td
+            = address.zip
+          td
+            = address.country
+          td
+            = link_to 'Show', address
+          td
+            = link_to 'Edit', edit_address_path(address) 
+          td
+            = link_to 'Destroy', address, method: :delete, data: { confirm: 'Are you sure?' } 

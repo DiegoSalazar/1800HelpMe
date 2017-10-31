@@ -10,13 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171024051330) do
+ActiveRecord::Schema.define(version: 20171031041620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
   enable_extension "pg_trgm"
   enable_extension "fuzzystrmatch"
-  enable_extension "hstore"
+
+  create_table "addresses", force: :cascade do |t|
+    t.integer "contactable_id"
+    t.string "contactable_type"
+    t.string "address_type"
+    t.boolean "primary"
+    t.text "street1"
+    t.text "street2"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "country"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "calls", force: :cascade do |t|
     t.integer "user_id"
@@ -29,6 +44,7 @@ ActiveRecord::Schema.define(version: 20171024051330) do
     t.hstore "meta"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_calls_on_user_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -37,7 +53,16 @@ ActiveRecord::Schema.define(version: 20171024051330) do
     t.string "middle_name"
     t.string "last_name"
     t.string "email"
-    t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "phone_numbers", force: :cascade do |t|
+    t.integer "contactable_id"
+    t.string "contactable_type"
+    t.string "number"
+    t.string "phone_type"
+    t.boolean "primary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -48,8 +73,8 @@ ActiveRecord::Schema.define(version: 20171024051330) do
     t.string "first_name", default: "", null: false
     t.string "middle_name"
     t.string "last_name", default: "", null: false
-    t.string "phone", default: "", null: false
-    t.integer "role"
+    t.string "name", default: "", null: false
+    t.integer "role", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -64,6 +89,7 @@ ActiveRecord::Schema.define(version: 20171024051330) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

@@ -1,0 +1,30 @@
+.page-header
+  = link_to phone_numbers_path, class: 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_phone_number_path(@phone_number), class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show phone_number
+dl.dl-horizontal
+  dt
+    | Contactable:
+  dd
+    = @phone_number.contactable_id
+  dt
+    | Contactable type:
+  dd
+    = @phone_number.contactable_type
+  dt
+    | Number:
+  dd
+    = @phone_number.number
+  dt
+    | Phone type:
+  dd
+    = @phone_number.phone_type
+  dt
+    | Primary:
+  dd
+    = @phone_number.primary

@@ -8,8 +8,8 @@
 #  first_name             :string           default(""), not null
 #  middle_name            :string
 #  last_name              :string           default(""), not null
-#  phone                  :string           default(""), not null
-#  role                   :integer
+#  name                   :string           default(""), not null
+#  role                   :integer          not null
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
@@ -26,16 +26,17 @@
 #  updated_at             :datetime         not null
 #
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
-    confirmed_at Time.now
-    name "Test User"
-    email "test@example.com"
-    password "please123"
+    confirmed_at { Time.now }
+    first_name { Faker::Name.first_name }
+    middle_name { Faker::Name.name_with_middle.split(' ')[1] if rand > rand }
+    last_name { Faker::Name.last_name }
+    email { Faker::Internet.email }
+    password { Faker::Internet.password }
 
     trait :admin do
       role 'admin'
     end
-
   end
 end

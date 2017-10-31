@@ -5,51 +5,50 @@ git_source(:github) do |repo_name|
 end
 ruby '2.3.5'
 
-gem 'def_retry', git: 'https://github.com/DiegoSalazar/DefRetry.git'
-gem 'pg_search'
-gem 'twilio-ruby'
-gem 'google-cloud-speech'
-gem 'rails', '~> 5.1.4'
-gem 'puma', '~> 3.7'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
+gem 'administrate'
+gem 'bootstrap-sass'
+gem 'bourbon'
 gem 'coffee-rails', '~> 4.2'
-gem 'turbolinks', '~> 5'
+gem 'def_retry', git: 'https://github.com/DiegoSalazar/DefRetry.git'
+gem 'devise'
+gem 'devise_invitable'
+gem 'google-cloud-speech'
+gem 'high_voltage'
 gem 'jbuilder', '~> 2.5'
-group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'capybara', '~> 2.13'
-  gem 'selenium-webdriver'
-end
+gem 'jquery-rails'
+gem 'pg'
+gem 'pg_search'
+gem 'puma', '~> 3.7'
+gem 'rails', '~> 5.1.4'
+gem 'sass-rails', '~> 5.0'
+gem 'slim-rails'
+gem 'turbolinks', '~> 5'
+gem 'twilio-ruby'
+gem 'tzinfo-data'
+gem 'uglifier', '>= 1.3.0'
+gem 'activerecord-import'
+gem 'airbrake'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'annotate', require: false
-end
-
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-gem 'administrate'
-gem 'bootstrap-sass'
-gem 'bourbon'
-gem 'devise'
-gem 'devise_invitable'
-gem 'high_voltage'
-gem 'jquery-rails'
-gem 'pg'
-gem 'slim-rails'
-group :development do
   gem 'better_errors'
   gem 'foreman'
   gem 'hub', :require=>nil
   gem 'rails_layout'
   gem 'spring-commands-rspec'
   gem 'bootstrap-generators'
+
 end
 group :development, :test do
-  gem 'factory_girl_rails'
+  gem 'byebug'
+  gem 'capybara', '~> 2.13'
+  gem 'selenium-webdriver'
   gem 'faker'
+  gem 'factory_bot_rails'
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'

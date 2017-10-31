@@ -1,0 +1,50 @@
+.page-header
+  = link_to addresses_path, class: 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_address_path(@address), class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show address
+dl.dl-horizontal
+  dt
+    | Contactable:
+  dd
+    = @address.contactable_id
+  dt
+    | Contactable type:
+  dd
+    = @address.contactable_type
+  dt
+    | Address type:
+  dd
+    = @address.address_type
+  dt
+    | Primary:
+  dd
+    = @address.primary
+  dt
+    | Street1:
+  dd
+    = @address.street1
+  dt
+    | Street2:
+  dd
+    = @address.street2
+  dt
+    | City:
+  dd
+    = @address.city
+  dt
+    | State:
+  dd
+    = @address.state
+  dt
+    | Zip:
+  dd
+    = @address.zip
+  dt
+    | Country:
+  dd
+    = @address.country

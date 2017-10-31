@@ -8,8 +8,8 @@
 #  first_name             :string           default(""), not null
 #  middle_name            :string
 #  last_name              :string           default(""), not null
-#  phone                  :string           default(""), not null
-#  role                   :integer
+#  name                   :string           default(""), not null
+#  role                   :integer          not null
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
