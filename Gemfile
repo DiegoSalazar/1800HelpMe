@@ -30,6 +30,10 @@ gem 'activerecord-import'
 gem 'airbrake'
 gem 'newrelic_rpm'
 
+# so I can create data on heroku to test with
+gem 'faker'
+gem 'factory_bot_rails'
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
@@ -42,14 +46,12 @@ group :development do
   gem 'rails_layout'
   gem 'spring-commands-rspec'
   gem 'bootstrap-generators'
-
 end
+
 group :development, :test do
   gem 'byebug'
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
-  gem 'faker'
-  gem 'factory_bot_rails'
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'
