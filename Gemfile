@@ -34,6 +34,10 @@ gem 'newrelic_rpm'
 gem 'faker'
 gem 'factory_bot_rails'
 
+group :production do
+  gem 'rails_12factor'
+end
+
 group :development do
   gem 'web-console', '>= 3.3.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
