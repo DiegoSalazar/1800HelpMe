@@ -7,7 +7,7 @@ module Contactable
   end
 
   def phone
-    default_phone_number.number
+    default_phone_number.try :number
   end
 
   def default_phone_number
