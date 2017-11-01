@@ -35,13 +35,15 @@ class ContactRecognitionsController < ApplicationController
         r.gather input: 'dtmf', numDigits: 1, action: user_call_voice_auths_path(@user, call.parent_call) do
           r.say "If you'd like to look for another number, press 1."
         end
-      elsif contacts.size > 1 && contacts.size < 10
+      elsif contacts.size > 1 && contacts.size < 9
         cdms = ContactDigitMapperService.new contacts
-        
+
         r.say "I found #{'contact'.pluralize contacts.size}."
         r.gather numDigits: 1, action: user_call_contact_recognitions_path(@user, call, contacts_digits: cdms.contacts_digits) do |g|
           g.say cdms.question_with_contacts_digits
         end
+        # if no digits pressed, have them start over
+        r.redirect user_call_voice_auths_path(@user, call.parent_call)
       else
         r.say "I couldn't find that contact. Please, try again."
         r.record maxLength: 3, action: user_call_contact_recognitions_path(@user, call)
