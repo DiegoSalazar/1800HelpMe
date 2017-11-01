@@ -3,7 +3,7 @@ html
   head
     meta[name="viewport" content="width=device-width, initial-scale=1.0"]
     title
-      = content_for?(:title) ? yield(:title) : 'Www1800 Help Me'
+      = content_for?(:title) ? yield(:title) : '1800HelpMe'
     meta name="description" content="#{content_for?(:description) ? yield(:description) : 'Www1800 Help Me'}"
     == stylesheet_link_tag "application", :media => 'all', 'data-turbolinks-track' => 'reload'
     == javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'
@@ -11,8 +11,8 @@ html
     link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" /
   body
     header
-      | <%= render 'layouts/navigation' %
+      == render 'layouts/navigation'
 
-    | <%= render 'layouts/messages' %
-    | <%= yield %
-    | <%= render 'layouts/footer' %
+    == render 'layouts/messages'
+    == yield
+    == render 'layouts/footer'
