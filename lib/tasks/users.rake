@@ -4,24 +4,10 @@ namespace :users do
     min = args.fetch(:min, 100).to_i
     max = args.fetch(:max, 100).to_i
     num = min + rand(max)
-    puts "Buulding #{num} users..."
+    puts "Building #{num} users..."
 
     User.transaction do
-      users = num.times.map do
-        user = User.new FactoryBot.attributes_for :user
-
-        user.contacts << FactoryBot.build_list(:contact, num)
-        user.contacts.each do |contact|
-          contact.phone_numbers << FactoryBot.build_list(:phone_number, rand(3) + 1)
-          contact.addresses << FactoryBot.build_list(:address, rand(3) + 1)
-        end
-
-        user.phone_numbers << FactoryBot.build(:phone_number)
-        user.addresses << FactoryBot.build(:address)
-        print ?.
-        user
-      end
-
+      users = num.times.map { print ?.; create_user num }
       puts nil, "Inserting Users..."
       User.import users, recursive: true
     end
@@ -35,5 +21,17 @@ namespace :users do
     puts "Destroying Users and Contacts..."
     [User, Contact].map &:destroy_all
     puts "\aDone."
+  end
+
+  def create_user(num)
+    User.new(FactoryBot.attributes_for(:user)).tap do |user|
+      user.contacts << FactoryBot.build_list(:contact, num)
+      user.contacts.each do |contact|
+        contact.phone_numbers << FactoryBot.build_list(:phone_number, rand(3) + 1)
+        contact.addresses << FactoryBot.build_list(:address, rand(3) + 1)
+      end
+      user.phone_numbers << FactoryBot.build(:phone_number)
+      user.addresses << FactoryBot.build(:address)
+    end
   end
 end
