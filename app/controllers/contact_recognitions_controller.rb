@@ -31,7 +31,7 @@ class ContactRecognitionsController < ApplicationController
         r.say "I found #{contact.full_name}."
         r.say "Their number is, #{phone_num_for_text2speech contact.phone}."
         r.gather input: 'dtmf', digits: 1, action: user_call_voice_auths_path(@user, call.parent_call) do
-          r.say "If you'd like to look for another number, press 1. Otherwise, see ya later."
+          r.say "If you'd like to look for another number, press 1."
         end
       else
         r.say "I couldn't find that contact. Please, try again."

@@ -17,9 +17,11 @@
 
 FactoryBot.define do
   factory :call do
-    called "MyString"
-    recording_url "MyString"
-    meta "MyText"
-    recording_duration 1
+    recording_url {}
+    meta {}
+
+    trait :from_diego1 do
+      recording_url 'https://api.twilio.com/2010-04-01/Accounts/AC0c5cf6c8a23ea564c466c710e8edc22a/Recordings/RE4f2c9d530ec2b97d76df19f9b83b5bb6'
+    end
   end
 end
