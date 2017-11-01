@@ -7,7 +7,7 @@ class VoiceAuthsController < ApplicationController
   include GetsUser
   before_action :get_user
   skip_before_action :verify_authenticity_token
-  TRIES = ENV.fetch('VOICE_AUTH_TRIES', 5).to_i
+  TRIES = ENV.fetch('VOICE_AUTH_TRIES', 2).to_i
 
   def create
     call = take_call
