@@ -14,7 +14,7 @@ class VoiceRecogService
   end
 
   def decode(call)
-    retryable on: OpenURI::HTTPError do
+    retryable on: OpenURI::HTTPError, re_raise: false do
       file = open call.recording_url
       @speech_decoder.
         audio(file, language: 'en-US', sample_rate: 8000, encoding: :linear16).

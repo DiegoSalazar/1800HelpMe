@@ -16,6 +16,7 @@ class Contact < ApplicationRecord
   include Nameable
   include Contactable
   include Searchable
-  
+
   belongs_to :user
+  default_scope { order :created_at }
 end

@@ -1,3 +1,6 @@
+Style/DotPosition:
+  Enabled: false
+
 Rails:
   Enabled: true
   Include:

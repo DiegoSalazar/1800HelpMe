@@ -12,26 +12,35 @@ class ContactRecognitionsController < ApplicationController
   def create
     call = take_call
     @user.calls << call
-    contact = nil
+    contacts, contact = [], find_chosen_contact
 
-    retryable on: NoMethodError, tries: TRIES, re_raise: false do
-      speech = voice_recog_service.decode call
-      log "Speech: #{speech.inspect}"
-      call.update_column :recognized_speech, speech.transcript
-    end
+    if contact.nil?
+      retryable on: NoMethodError, tries: TRIES, re_raise: false do
+        speech = voice_recog_service.decode call
+        log "Speech: #{speech.inspect}"
+        call.update_column :recognized_speech, speech.transcript
+      end
 
-    if call.recognized_speech.present?
-      contacts = @user.contacts.search_by_full_name call.recognized_speech
-      log "Found #{contacts.size} #{'contact'.pluralize contacts.size}"
-      contact = contacts.first
+      if call.recognized_speech.present?
+        contacts = @user.contacts.search_by_full_name call.recognized_speech
+        log "Found #{contacts.size} #{'contact'.pluralize contacts.size}"
+      end
     end
 
     render_voice_response do |r|
       if contact.present?
         r.say "I found #{contact.full_name}."
         r.say "Their number is, #{phone_num_for_text2speech contact.phone}."
-        r.gather input: 'dtmf', digits: 1, action: user_call_voice_auths_path(@user, call.parent_call) do
+
+        r.gather input: 'dtmf', numDigits: 1, action: user_call_voice_auths_path(@user, call.parent_call) do
           r.say "If you'd like to look for another number, press 1."
+        end
+      elsif contacts.size > 1 && contacts.size < 10
+        cdms = ContactDigitMapperService.new contacts
+        r.say "I found #{'contact'.pluralize contacts.size}."
+
+        r.gather numDigits: 1, action: user_call_contact_recognitions_path(@user, call, contacts_digits: cdms.contacts_digits) do |g|
+          g.say cdms.question_with_contacts_digits
         end
       else
         r.say "I couldn't find that contact. Please, try again."
@@ -48,5 +57,10 @@ class ContactRecognitionsController < ApplicationController
   rescue NoMethodError
     log "t2s num warning: #{{ phone: phone, p1: part1, p2: part2, p3: part3 }.inspect}"
     phone.to_s.chars.join ', '
+  end
+
+  def find_chosen_contact
+    return if params[:contacts_digits].blank?
+    Contact.find_by_id params[:contacts_digits].fetch(params[:Digits])
   end
 end

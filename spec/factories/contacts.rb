@@ -19,5 +19,6 @@ FactoryBot.define do
     middle_name { Faker::Name.name_with_middle.split(' ')[1] if rand > rand }
     last_name { Faker::Name.last_name }
     email { Faker::Internet.email }
+    association :user, factory: :user
   end
 end
