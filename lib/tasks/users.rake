@@ -4,9 +4,9 @@ namespace :users do
     min = args.fetch(:min, 100).to_i
     max = args.fetch(:max, 100).to_i
     num = min + rand(max)
-    puts "Building #{num} users..."
 
     User.transaction do
+      puts "Building #{num} users..."
       users = num.times.map { print ?.; create_user num }
       puts nil, "Inserting Users..."
       User.import users, recursive: true
