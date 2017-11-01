@@ -37,8 +37,8 @@ class ContactRecognitionsController < ApplicationController
         end
       elsif contacts.size > 1 && contacts.size < 10
         cdms = ContactDigitMapperService.new contacts
+        
         r.say "I found #{'contact'.pluralize contacts.size}."
-
         r.gather numDigits: 1, action: user_call_contact_recognitions_path(@user, call, contacts_digits: cdms.contacts_digits) do |g|
           g.say cdms.question_with_contacts_digits
         end
