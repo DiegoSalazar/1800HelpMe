@@ -1,5 +1,6 @@
 module My
   class ContactsController < ApplicationController
+    before_action :authenticate_user!   
     before_action :set_contact, only: [:show, :edit, :update, :destroy]
 
     def index
@@ -56,7 +57,7 @@ module My
       end
 
       def contact_params
-        params.require(:contact).permit(:user_id, :first_name, :middle_name, :last_name, :email, :phone)
+        params.require(:contact).permit(:user_id, :first_name, :middle_name, :last_name, :email)
       end
   end
 end
