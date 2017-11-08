@@ -8,4 +8,8 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit :account_update, \
       keys: [:first_name, :middle_name, :last_name]
   end
+
+  def after_sign_in_path_for(resource)
+    stored_location_for(resource) || my_contacts_path
+  end
 end

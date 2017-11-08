@@ -3,6 +3,7 @@ require 'google/cloud/speech'
 
 # Speech to text from a Twilio call recording
 class VoiceRecogService
+  NullSpeech = Struct.new('NullSpeech', :transcript).new ''
   include DefRetry
 
   def initialize
@@ -13,12 +14,14 @@ class VoiceRecogService
     )
   end
 
-  def decode(call)
+  def decode(call, language: 'en-US', sample_rate: 8000, encoding: :linear16)
     retryable on: OpenURI::HTTPError, re_raise: false do
       file = open call.recording_url
       @speech_decoder.
-        audio(file, language: 'en-US', sample_rate: 8000, encoding: :linear16).
-        recognize.first
+        audio(file, language: language, sample_rate: sample_rate, encoding: encoding).
+        recognize.tap do |a|
+          # debug
+        end.first || NullSpeech
     end
   end
 end

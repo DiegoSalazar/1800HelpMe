@@ -6,16 +6,11 @@
 # you're free to overwrite the RESTful controller actions.
 module Admin
   class ApplicationController < Administrate::ApplicationController
-    before_action :authenticate_admin
+    before_action :authenticate_admin!
 
-    def authenticate_admin
-      redirect_to new_user_session_path, alert: I18n.t('devise.failure.unauthenticated') unless current_user.try :admin?
+    def authenticate_admin!
+      return if current_user.try :admin?
+      redirect_to new_user_session_path, alert: I18n.t('devise.failure.unauthenticated')
     end
-
-    # Override this value to specify the number of elements to display at a time
-    # on index pages. Defaults to 20.
-    # def records_per_page
-    #   params[:per_page] || 20
-    # end
   end
 end

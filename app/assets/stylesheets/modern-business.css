@@ -42,6 +42,11 @@ header.carousel .fill {
     background-size: cover;
 }
 
+ .carousel-caption-center {
+  top: 30%;
+  bottom: auto;
+ }
+
 /* 404 Page Styles */
 
 .error-404 {
