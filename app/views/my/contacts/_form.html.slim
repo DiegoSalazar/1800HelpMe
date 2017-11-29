@@ -26,10 +26,17 @@
     = f.label :email, class: "col-sm-2 control-label"
     .col-sm-10
       = f.text_field :email, class: "form-control"
-  .form-group
-    = f.label :phone, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :phone, class: "form-control"
+
+  / .form-group
+  /   = f.label :phone, class: "col-sm-2 control-label"
+  /   .col-sm-10
+  /     = f.text_field :phone, class: "form-control"
+  = f.fields_for :phone_numbers, @contact.phone_numbers.last || @contact.phone_numbers.build do |phone_number_fields|
+    .form-group
+      = phone_number_fields.label :number, 'Phone', class: "col-sm-2 control-label"
+      .col-sm-10
+        = phone_number_fields.text_field :number, class: "form-control"
+
   .form-group
     .col-sm-offset-2.col-sm-10
       = f.submit class: "btn btn-primary"

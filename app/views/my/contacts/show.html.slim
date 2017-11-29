@@ -32,6 +32,10 @@
         dd
           = @contact.email
         dt
-          | Phone:
+          = 'Phone'.pluralize @contact.phone_numbers.size
+          | :
         dd
-          = @contact.phone
+          ul.list-unstyled
+            - @contact.phone_numbers.each do |phone_number|
+              li = phone_number.number
+

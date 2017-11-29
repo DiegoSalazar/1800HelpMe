@@ -57,7 +57,13 @@ module My
       end
 
       def contact_params
-        params.require(:contact).permit(:user_id, :first_name, :middle_name, :last_name, :email)
+        params.require(:contact).permit \
+          :user_id,
+          :first_name,
+          :middle_name,
+          :last_name,
+          :email,
+          phone_numbers_attributes: [:number]
       end
   end
 end
