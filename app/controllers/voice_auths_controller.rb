@@ -31,10 +31,10 @@ class VoiceAuthsController < ApplicationController
         @user.calls << call
         r.say "Hello, #{@user.first_name}."
         r.say "Who's phone number can I get for you?"
-        r.record maxLength: 3, action: user_call_contact_recognitions_path(@user, call)
+        r.record maxLength: 3, playBeep: false, action: user_call_contact_recognitions_path(@user, call)
       else
         r.say "I didn't hear that. Please say your full name again."
-        r.record maxLength: 3, action: call_voice_auths_path(call)
+        r.record maxLength: 3, playBeep: false, action: call_voice_auths_path(call)
       end
     end
   end
