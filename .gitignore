@@ -84,3 +84,4 @@ pickle-email-*.html
 *~
 
 .vscode/
+.dir_bash_history
