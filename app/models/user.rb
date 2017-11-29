@@ -45,4 +45,8 @@ class User < ApplicationRecord
   def set_default_role
     self.role ||= :user
   end
+
+  def contact_names
+    contacts.flat_map { |c| [c.first_name, c.middle_name, c.last_name] }
+  end
 end

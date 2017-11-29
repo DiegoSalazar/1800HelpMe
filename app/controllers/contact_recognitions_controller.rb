@@ -16,7 +16,7 @@ class ContactRecognitionsController < ApplicationController
 
     if contact.nil?
       retryable on: NoMethodError, tries: TRIES, re_raise: false do
-        speech = voice_recog_service.decode call
+        speech = voice_recog_service.decode call, phrases: @user.contact_names
         log "Speech: #{speech.inspect}"
         call.update_column :recognized_speech, speech.transcript
       end

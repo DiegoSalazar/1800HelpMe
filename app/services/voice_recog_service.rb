@@ -14,11 +14,11 @@ class VoiceRecogService
     )
   end
 
-  def decode(call, language: 'en-US', sample_rate: 8000, encoding: :linear16)
+  def decode(call, phrases: [], language: 'en-US', sample_rate: 8000, encoding: :linear16)
     retryable on: OpenURI::HTTPError, re_raise: false do
       file = open call.recording_url
       @speech_decoder.
-        audio(file, language: language, sample_rate: sample_rate, encoding: encoding).
+        audio(file, phrases: phrases, language: language, sample_rate: sample_rate, encoding: encoding).
         recognize.tap do |a|
           # debug
         end.first || NullSpeech
