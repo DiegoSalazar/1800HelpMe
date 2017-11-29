@@ -15,12 +15,26 @@ namespace :users do
     puts "\aDone."
   end
 
+  desc 'Create contacts for a user'
+  task :create_contacts, [:user_id, :num_contacts] => :environment do |t, args|
+    user = User.find args.fetch :user_id
+    num = (args[:num_contacts] || 10).to_i
+
+    Contact.transaction do
+      puts "Building #{num} contacts for #{user.full_name}..."
+      contacts = num.times.map { print ?.; build_contact_for user }
+      Contact.import contacts, recursive: true
+    end
+
+    puts "\n\aDone."
+  end
+
   desc "Clear users, and contacts, and their phone_numbers, and addresses"
   task :clear, [:override] => :environment do |t, args|
     raise 'No.' if Rails.env.production? && args[:override].blank?
     puts "Destroying Users and Contacts..."
     [User, Contact, Call, PhoneNumber, Address].map &:delete_all
-    puts "\aDone."
+    puts "\n\aDone."
   end
 
   def create_user(num)
@@ -33,5 +47,9 @@ namespace :users do
       user.phone_numbers << FactoryBot.build(:phone_number)
       user.addresses << FactoryBot.build(:address)
     end
+  end
+
+  def build_contact_for(user)
+    Contact.new FactoryBot.attributes_for(:contact, user_id: user.id)
   end
 end
