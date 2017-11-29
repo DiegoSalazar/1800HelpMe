@@ -19,7 +19,7 @@ namespace :users do
   task :clear, [:override] => :environment do |t, args|
     raise 'No.' if Rails.env.production? && args[:override].blank?
     puts "Destroying Users and Contacts..."
-    [User, Contact].map &:destroy_all
+    [User, Contact, Call, PhoneNumber, Address].map &:delete_all
     puts "\aDone."
   end
 
