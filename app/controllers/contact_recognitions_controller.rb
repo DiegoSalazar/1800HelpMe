@@ -23,6 +23,7 @@ class ContactRecognitionsController < ApplicationController
 
       if call.recognized_speech.present?
         contacts = @user.contacts.search_by_full_name call.recognized_speech
+        contact = contacts.first if contacts.size == 1
         log "Found #{contacts.size} #{'contact'.pluralize contacts.size}"
       end
     end
