@@ -35,7 +35,7 @@ class ContactRecognitionsController < ApplicationController
         r.gather input: 'dtmf', numDigits: 1, action: user_call_voice_auths_path(@user, call.parent_call) do
           r.say "If you'd like to look for another number, press 1."
         end
-      elsif contacts.size > 1 && contacts.size < 9
+      elsif contacts.size >= 1 && contacts.size < 9
         cdms = ContactDigitMapperService.new contacts
 
         r.say "I found #{'contact'.pluralize contacts.size}."
